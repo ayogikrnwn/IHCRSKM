@@ -1,5 +1,5 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import IMGdummy from '../../assets/dumypp.png'
 import icnotif from '../../assets/notifikasi.png'
 import icdecoration from '../../assets/decorations.png'
@@ -9,18 +9,92 @@ import iccircle from '../../assets/circle.png'
 import circlegreen from '../../assets/circlegreen.png'
 import circleorange from '../../assets/circleorange.png'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { conversiDateTimeIDN } from '../../context/DateTimeServices'
+import { APIUrl } from '../../context/APIUrl'
+import axios from 'axios'
 
-const Home = ({route}) => {
+const Home = ({navigation, route}) => {
+ const [dataPribadi, setDataPribadi] = useState({})
+ const [token, setToken] = useState("")
+
  
 const getToken = async () => {
   const value = await AsyncStorage.getItem('@token')
-  console.log('valuetoken', value);
+  
+  const valueData = await AsyncStorage.getItem('@dataPribadi')
+  const AuthStr = value
+  console.log('valuetoken', AuthStr);
+  config = {
+ 
+    headers: { 
+      
+      
+      Authorization: AuthStr
+    
+    }
+   
+  }
+  // console.log('authorssss',config );
+  const valData = JSON.parse(valueData)
+  console.log('valueData', valData);
+  setDataPribadi(valData)
+  setToken(valData)
+  try {
+    // setLoading(true)
+     await axios.get('https://api.waktukerja.com/api/presensi', {
+    }, 
+    { headers: {
+      Authorization : AuthStr
+    } }
+   
+    )
+
+      .then((res) => {
+        setLoading(false)
+       console.log('response', res.data);
+      
+      });
+  } catch (error) {
+  
+    console.log("err", error.response);
+    
+   
+  }
 }
+
+// const getPresensi = async () => {
+//   try {
+//     // setLoading(true)
+//      await axios.get(`${APIUrl}/api/presensi?tanggal&keyword&per_page&page`, {
+//     }, {
+//       headers: {
+ 
+//         "Authorization": `Bearer ${token}`
+//       },
+//     })
+
+//       .then((res) => {
+//         setLoading(false)
+//        console.log('response', res);
+      
+//       });
+//   } catch (error) {
+//     // setLoading(false)
+//     console.log("err", error.response);
+//     // alert('Login Gagal')
+//     // navigation.navigate('MyTabs')
+   
+//   }
+
+// }
 
 useEffect(() => {
   getToken()
+  // getPresensi()
 }, [])
 
+const dateNow = new Date()
+const time = dateNow.getHours() + ":" + dateNow.getMinutes() 
 
   return (
     <View style={{flex: 1, backgroundColor: '#E6EDF4'}}>
@@ -29,8 +103,8 @@ useEffect(() => {
         <Image source={IMGdummy} />
         </View>
         <View style={{marginLeft: -50, marginTop: -3}}>
-        <Text style={{fontSize: 18, fontWeight: 'bold', color: '#00162A'}}>Veronika Yulian</Text>
-        <Text style={{fontSize: 14,color: '#292929'}}>Staff Nurse Radiognastic Pratama</Text>
+        <Text style={{fontSize: 18, fontWeight: 'bold', color: '#00162A'}}>{dataPribadi.nama}</Text>
+        <Text style={{fontSize: 14,color: '#292929'}}>{dataPribadi.jabatan}</Text>
         </View>
 
         <View style={{marginTop: 10}}>
@@ -41,24 +115,24 @@ useEffect(() => {
 
       <View style={{height: 113, backgroundColor: '#1A5D98'}}>
         <View>
-            <Image source={icdecoration} style={{alignSelf: 'flex-end'}} />
+            <Image source={{uri: dataPribadi.photo_upload_path }} style={{alignSelf: 'flex-end'}} />
         </View>
 
-        <View style={{marginTop: -65, marginLeft: 16}}>
-          <Text style={{fontSize: 14, fontWeight: 'bold', color: 'white'}}>Selamat Pagis</Text>
+        <View style={{ marginTop: 20, marginLeft: 16}}>
+          <Text style={{fontSize: 14, fontWeight: 'bold', color: 'white'}}>Selamat Pagi</Text>
           <Text style={{fontSize: 14,  color: 'white'}}>Silahkan melakukan presensi masuk</Text>
         </View>
         <View style={{flexDirection: 'row', justifyContent: 'space-between' ,backgroundColor: 'white', width: '90%', height: 80, alignSelf: 'center', marginTop: 10, borderRadius: 12}}>
             <View>
-            <Text style={{marginLeft: 16, width: 150, color: '#003562', fontSize: 14, fontWeight: 'bold', marginTop: 16}}>Senin, 20 September 2022 </Text>
-            <Text style={{marginLeft: 16, color: 'grey'}}>07:30:12</Text>
+            <Text style={{marginLeft: 16, width: 150, color: '#003562', fontSize: 14, fontWeight: 'bold', marginTop: 16}}>{conversiDateTimeIDN(dateNow)} </Text>
+            <Text style={{marginLeft: 16, color: 'grey'}}>{time}</Text>
             </View>
-            <View style={{width: 120, height: 40, backgroundColor: '#1A5D98',  borderRadius: 6,marginTop: 16, marginRight: 28, alignItems: 'center', paddingHorizontal: 10, flexDirection: 'row'}}>
+            <TouchableOpacity onPress={() => navigation.navigate('ScanPresensi')} style={{width: 120, height: 40, backgroundColor: '#1A5D98',  borderRadius: 6,marginTop: 16, marginRight: 28, alignItems: 'center', paddingHorizontal: 10, flexDirection: 'row'}}>
             <Image source={icmasuk} />
             <Text style={{marginLeft: 16, color: 'white', fontWeight: 'bold'}}>Masuk</Text>
          
            
-            </View>
+            </TouchableOpacity>
         </View>
 
         <View style={{marginLeft: 16, marginTop: 21, flexDirection: 'row', justifyContent: 'space-between'}}>

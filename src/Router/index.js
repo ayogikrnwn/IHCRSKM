@@ -9,6 +9,7 @@ import AkunDashboard from '../pages/Akun/AkunDashboard';
 import MedicalCheck from '../pages/Akun/MedicalCheck';
 import ProfilPribadi from '../pages/Akun/ProfilPribadi';
 import Home from '../pages/Home';
+import ScanPresensi from '../pages/Home/ScanPresensi';
 import DetailPayslip from '../pages/Laporan/DetailPayslip';
 import LaporanDashboard from '../pages/Laporan/LaporanDashboard';
 import LaporanDPMK from '../pages/Laporan/LaporanDPMK';
@@ -60,6 +61,11 @@ const Router = () => {
  <Stack.Screen
       name="FormPengajuan"
       component={FormPengajuan}
+      options={{headerShown: false}}
+    />
+     <Stack.Screen
+      name="ScanPresensi"
+      component={ScanPresensi}
       options={{headerShown: false}}
     />
  <Stack.Screen

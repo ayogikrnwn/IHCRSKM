@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import {ActivityIndicator, Image, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import React, { useState } from 'react';
-import ImgLogo from '../../assets/logohome.png';
+import ImgLogo from '../../assets/logowaktukerja.png';
 import axios from "axios"
 import { APIUrl } from '../../context/APIUrl';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -22,11 +22,11 @@ const Login = ({navigation}) => {
        await axios.post('https://api.waktukerja.com/api/auth/login', inputan)
         .then((res) => {
           setLoading(false)
-         console.log('response', res.data.token);
+         console.log('response', res.data.data);
          const resData = res.data.data
          const resToken = res.data.token
           AsyncStorage.setItem('@token', resToken)
-          AsyncStorage.setItem('@dataPribadi', resData)
+          AsyncStorage.setItem('@dataPribadi', JSON.stringify(resData))
 
          navigation.push('MyTabs',{ 
           dataPengguna: resData,
@@ -53,7 +53,7 @@ const Login = ({navigation}) => {
         <>
           <Image source={ImgLogo} />
           
-          <Text style={{width: '100%',  marginLeft: 140, marginTop: 20, marginBottom: 10, color: '#002D54', fontWeight: 'bold'}}>NIK</Text>
+          <Text style={{width: '100%',  marginLeft: 140, marginTop: 20, marginBottom: 10, color: '#002D54', fontWeight: 'bold'}}>Email</Text>
           <TextInput
             // eslint-disable-next-line react-native/no-inline-styles
             style={{
@@ -63,10 +63,10 @@ const Login = ({navigation}) => {
               width: '70%'
             }}
 
-            placeholder="Input NIK"
+            placeholder="Input Email"
             onChangeText={(e) => setInput({ ...inputan, email: e })}  
           />
-             <Text style={{width: '100%',  marginLeft: 140, marginTop: 20, marginBottom: 10, color: '#002D54', fontWeight: 'bold'}}>PIN</Text>
+             <Text style={{width: '100%',  marginLeft: 140, marginTop: 20, marginBottom: 10, color: '#002D54', fontWeight: 'bold'}}>Password</Text>
           <TextInput
            
             style={{
@@ -76,7 +76,7 @@ const Login = ({navigation}) => {
               width: '70%'
             }}
 
-            placeholder="Input PIN"
+            placeholder="Input Password"
             onChangeText={(e) => setInput({ ...inputan, password: e })}  
             secureTextEntry
           />
