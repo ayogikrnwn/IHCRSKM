@@ -1,37 +1,79 @@
-import React from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 import { Image, ScrollView, StyleSheet, View } from 'react-native'
-import dumypp from '../../assets/dumphotos.png'
 import HeaderProfile from '../../component/Header/HeaderProfile'
 import SquareProfile from '../../component/Square/SquareProfile'
 
-const ProfilPribadi = () => {
+const ProfilPribadi = ({navigation}) => {
+  const [getData, setGetData] = useState({})
+ 
+  const getToken = async () => {
+    const value = await AsyncStorage.getItem('@token')
+    
+   
+    
+ 
+    // console.log('authorssss',config );
+   
+    try {
+      // setLoading(true)
+       await axios.get('https://api.waktukerja.com/api/profile',  
+      { 
+        headers: {
+        Authorization : 'Bearer ' + value
+      } 
+    } 
+     
+      )
+  
+        .then((res) => {
+       
+         console.log('response', res.data.data);
+          const respres = res.data.data
+          setGetData(respres)
+        });
+    } catch (error) {
+    
+      console.log("err", error);
+      
+     
+    }
+  }
+  
+  
+  
+  useEffect(() => {
+    getToken()
+    // getPresensi()
+  }, [])
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
-      <HeaderProfile title="Profil Karyawan" desc="Pribadi" />
+      <HeaderProfile title="Profil Karyawan" desc="Pribadi" onPress={() => navigation.goBack()} />
       <ScrollView>
 
 
       <View style={{padding: 16}}>
         <View style={{flexDirection: 'row'}}>
             <View>
-              <Image source={dumypp} />
+              <Image source={{uri: getData.id_upload_path}} style={{width: 100, height: 100}} />
             </View>
             <View style={{flex: 1}}>
-            <SquareProfile text="41341413" title="NIK" />
-            <SquareProfile text="2005 - 01 - 01" title="TBM" />
+            <SquareProfile text={getData.id_nomor} title="NIK" />
+            <SquareProfile text={getData.tmb} title="TBM" />
             </View>
         </View>
         <View>
-        <SquareProfile text="Veronica Yuliana, Amd.Kep " title="Nama" />
-        <SquareProfile text="1999 - 11 - 20" title="Tanggal Lahir" />
-        <SquareProfile text="41341413" title="No. Telepon" />
-        <SquareProfile text="41341413" title="Email" />
-        <SquareProfile text="41341413" title="NPWP" />
+        <SquareProfile text={getData.nama} title="Nama" />
+        <SquareProfile text={getData.talahir} title="Tanggal Lahir" />
+        <SquareProfile text={getData.nomor_telepon} title="No. Telepon" />
+        <SquareProfile text={getData.email} title="Email" />
+        <SquareProfile text="-" title="NPWP" />
 
-        <SquareProfile text="41341413" title="PTKP" />
-        <SquareProfile text="41341413" title="Jamsostek" />
+        <SquareProfile text="-" title="PTKP" />
+        <SquareProfile text="-" title="Jamsostek" />
 
-        <SquareProfile text="41341413" title="Jabatan" />
+        <SquareProfile text={getData.jabatan} title="Jabatan" />
 
 
 

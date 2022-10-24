@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import IMGdummy from '../../assets/dumypp.png'
 import icnotif from '../../assets/notifikasi.png'
@@ -13,16 +13,17 @@ import { conversiDateTimeIDN } from '../../context/DateTimeServices'
 import { APIUrl } from '../../context/APIUrl'
 import axios from 'axios'
 
+
 const Home = ({navigation, route}) => {
  const [dataPribadi, setDataPribadi] = useState({})
  const [token, setToken] = useState("")
-
+ const [getPresensi, setGetPresensi] = useState([])
  
 const getToken = async () => {
   const value = await AsyncStorage.getItem('@token')
   
   const valueData = await AsyncStorage.getItem('@dataPribadi')
-  const AuthStr = value
+  const AuthStr = 'Bearer' + value
   console.log('valuetoken', AuthStr);
   config = {
  
@@ -41,52 +42,30 @@ const getToken = async () => {
   setToken(valData)
   try {
     // setLoading(true)
-     await axios.get('https://api.waktukerja.com/api/presensi', {
-    }, 
-    { headers: {
-      Authorization : AuthStr
-    } }
+     await axios.get('https://api.waktukerja.com/api/presensi',  
+    { 
+      headers: {
+      Authorization : 'Bearer ' + value
+    } 
+  } 
    
     )
 
       .then((res) => {
-        setLoading(false)
-       console.log('response', res.data);
-      
+     
+       console.log('response', res.data.data.data);
+        const respres = res.data.data.data
+        setGetPresensi(respres)
       });
   } catch (error) {
   
-    console.log("err", error.response);
+    console.log("err", error);
     
    
   }
 }
 
-// const getPresensi = async () => {
-//   try {
-//     // setLoading(true)
-//      await axios.get(`${APIUrl}/api/presensi?tanggal&keyword&per_page&page`, {
-//     }, {
-//       headers: {
- 
-//         "Authorization": `Bearer ${token}`
-//       },
-//     })
 
-//       .then((res) => {
-//         setLoading(false)
-//        console.log('response', res);
-      
-//       });
-//   } catch (error) {
-//     // setLoading(false)
-//     console.log("err", error.response);
-//     // alert('Login Gagal')
-//     // navigation.navigate('MyTabs')
-   
-//   }
-
-// }
 
 useEffect(() => {
   getToken()
@@ -98,7 +77,9 @@ const time = dateNow.getHours() + ":" + dateNow.getMinutes()
 
   return (
     <View style={{flex: 1, backgroundColor: '#E6EDF4'}}>
+    
       <View style={{backgroundColor: 'white', width: '100%', height:71, justifyContent: 'space-between', flexDirection: 'row', padding: 16}}>
+       
         <View>
         <Image source={IMGdummy} />
         </View>
@@ -113,11 +94,9 @@ const time = dateNow.getHours() + ":" + dateNow.getMinutes()
       
       </View>
 
-      <View style={{height: 113, backgroundColor: '#1A5D98'}}>
+      <ScrollView>
         <View>
-            <Image source={{uri: dataPribadi.photo_upload_path }} style={{alignSelf: 'flex-end'}} />
-        </View>
-
+        <View style={{ backgroundColor: '#1A5D98', height: 114}}>
         <View style={{ marginTop: 20, marginLeft: 16}}>
           <Text style={{fontSize: 14, fontWeight: 'bold', color: 'white'}}>Selamat Pagi</Text>
           <Text style={{fontSize: 14,  color: 'white'}}>Silahkan melakukan presensi masuk</Text>
@@ -134,8 +113,12 @@ const time = dateNow.getHours() + ":" + dateNow.getMinutes()
            
             </TouchableOpacity>
         </View>
+          </View>
+       
 
-        <View style={{marginLeft: 16, marginTop: 21, flexDirection: 'row', justifyContent: 'space-between'}}>
+      
+
+        <View style={{marginLeft: 16, marginTop: 60, flexDirection: 'row', justifyContent: 'space-between'}}>
           <View>
             
           <Text style={{fontSize: 14, color: '#1A5D98', fontWeight: 'bold'}}>Riwayat Presensi</Text>
@@ -147,6 +130,7 @@ const time = dateNow.getHours() + ":" + dateNow.getMinutes()
 
         </View>
 
+
       <View style={{width: '100%', height: 34, backgroundColor: '#FAFAFA', paddingHorizontal: 10 , alignItems: 'center', marginTop: 12, flexDirection: 'row', justifyContent: 'space-between'}}>
       <Text style={{fontSize: 12, color: 'black'}}>Tanggal</Text>
       <Text style={{fontSize: 12, color: 'black',  marginLeft: 50}}>Ket.</Text>
@@ -155,32 +139,26 @@ const time = dateNow.getHours() + ":" + dateNow.getMinutes()
       
       </View>
 
-      <View style={{width: '100%', height: 34, backgroundColor: '#FAFAFA', paddingHorizontal: 10 , alignItems: 'center',  flexDirection: 'row', justifyContent: 'space-between'}}>
-      <Text style={{fontSize: 12, color: 'black'}}>Senin 20 Februari 2022</Text>
-      {/* <Text style={{fontSize: 12, color: 'black', marginLeft: -38}}>Ket.</Text> */}
-      <Image source={iccircle} style={{marginLeft: -50}} />
-      <Text style={{fontSize: 12, color: 'black'}}>08:00:00</Text>
-      <Text style={{fontSize: 12, color: 'black'}}>17:00:00</Text>
       
-      </View>
+     {getPresensi.length > 0 ?
+      getPresensi.map((item,index) => {
+          return (
+            <View style={{width: '100%', height: 34, backgroundColor: '#FAFAFA', paddingHorizontal: 10 , alignItems: 'center',  flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Text style={{fontSize: 12, color: 'black'}}>{conversiDateTimeIDN(item.precense_date)}</Text>
+    
+    <Image source={iccircle} style={{marginLeft: -50}} />
+    <Text style={{fontSize: 12, color: 'black'}}>{(item.checkin).slice(11,19)}</Text>
+    <Text style={{fontSize: 12, color: 'black'}}>{(item.checkout).slice(11,19)}</Text>
+    </View>
+          
+          ) 
+      }) :<Text>REd</Text> 
+    }
+   
+      
+   
 
-      <View style={{width: '100%', height: 34, backgroundColor: '#FAFAFA', paddingHorizontal: 10 , alignItems: 'center',  flexDirection: 'row', justifyContent: 'space-between'}}>
-      <Text style={{fontSize: 12, color: 'black'}}>Senin 20 Februari 2022</Text>
-      {/* <Text style={{fontSize: 12, color: 'black', marginLeft: -38}}>Ket.</Text> */}
-      <Image source={iccircle} style={{marginLeft: -50}} />
-      <Text style={{fontSize: 12, color: 'black'}}>08:00:00</Text>
-      <Text style={{fontSize: 12, color: 'black'}}>17:00:00</Text>
-      
-      </View>
-
-      <View style={{width: '100%', height: 34, backgroundColor: '#FAFAFA', paddingHorizontal: 10 , alignItems: 'center',  flexDirection: 'row', justifyContent: 'space-between'}}>
-      <Text style={{fontSize: 12, color: 'black'}}>Senin 20 Februari 2022</Text>
-      {/* <Text style={{fontSize: 12, color: 'black', marginLeft: -38}}>Ket.</Text> */}
-      <Image source={iccircle} style={{marginLeft: -50}} />
-      <Text style={{fontSize: 12, color: 'black'}}>08:00:00</Text>
-      <Text style={{fontSize: 12, color: 'black'}}>17:00:00</Text>
-      
-      </View>
+    
 
 <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 16}}>
 <Text style={{fontSize: 10, color: 'black', marginTop: 3}}> Sebelumnya </Text>
@@ -207,6 +185,10 @@ const time = dateNow.getHours() + ":" + dateNow.getMinutes()
       </View>
 
       </View>
+      
+     
+      </ScrollView>
+      
     </View>
   )
 }
