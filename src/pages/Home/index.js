@@ -141,7 +141,7 @@ const time = dateNow.getHours() + ":" + dateNow.getMinutes()
 
       
      {getPresensi.length > 0 ?
-      getPresensi.map((item,index) => {
+      getPresensi.slice(0,6).map((item,index) => {
           return (
             <View style={{width: '100%', height: 34, backgroundColor: '#FAFAFA', paddingHorizontal: 10 , alignItems: 'center',  flexDirection: 'row', justifyContent: 'space-between'}}>
               <Text style={{fontSize: 12, color: 'black'}}>{conversiDateTimeIDN(item.precense_date)}</Text>

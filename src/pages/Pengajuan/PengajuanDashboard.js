@@ -18,10 +18,16 @@ const PengajuanDashboard = ({navigation}) => {
                 <Text style={{fontSize: 14, color: '#004B8C', fontWeight: 'bold'}}>Formulir Pengajuan</Text>
                    <IconHelp />
                     </View>
-                    <Square text="Formulir Izin"  onPress={() => navigation.navigate('FormPengajuan')}/>
-                    <Square text="Formulir Cuti"  onPress={() => navigation.navigate('FormPengajuan')}/>
-                    <Square text="Formulir Lembur"  onPress={() => navigation.navigate('FormPengajuan')}/>
-                    <Square text="Formulir Tukar Dinas"  onPress={() => navigation.navigate('FormPengajuan')}/>
+                    <Square text="Formulir Izin"  onPress={() => navigation.navigate('FormPengajuan', {
+                      type: 'Izin'
+                    })}/>
+                    <Square text="Formulir Cuti"  onPress={() => navigation.navigate('FormPengajuan', {
+                      type: 'Cuti'
+                    })}/>
+                    <Square text="Formulir Lembur"  onPress={() => navigation.navigate('FormPengajuan', {
+                      type: 'Lembur'
+                    })}/>
+                    {/* <Square text="Formulir Tukar Dinas"  onPress={() => navigation.navigate('FormPengajuan')}/> */}
 
 
 
