@@ -104,7 +104,7 @@ const time = dateNow.getHours() + ":" + dateNow.getMinutes()
         <View style={{flexDirection: 'row', justifyContent: 'space-between' ,backgroundColor: 'white', width: '90%', height: 80, alignSelf: 'center', marginTop: 10, borderRadius: 12}}>
             <View>
             <Text style={{marginLeft: 16, width: 150, color: '#003562', fontSize: 14, fontWeight: 'bold', marginTop: 16}}>{conversiDateTimeIDN(dateNow)} </Text>
-            <Text style={{marginLeft: 16, color: 'grey'}}>{time}</Text>
+            <Text style={{marginLeft: 16, color: 'black'}}>{time}</Text>
             </View>
             <TouchableOpacity onPress={() => navigation.navigate('ScanPresensi')} style={{width: 120, height: 40, backgroundColor: '#1A5D98',  borderRadius: 6,marginTop: 16, marginRight: 28, alignItems: 'center', paddingHorizontal: 10, flexDirection: 'row'}}>
             <Image source={icmasuk} />
@@ -146,7 +146,7 @@ const time = dateNow.getHours() + ":" + dateNow.getMinutes()
             <View style={{width: '100%', height: 34, backgroundColor: '#FAFAFA', paddingHorizontal: 10 , alignItems: 'center',  flexDirection: 'row', justifyContent: 'space-between'}}>
               <Text style={{fontSize: 12, color: 'black'}}>{conversiDateTimeIDN(item.precense_date)}</Text>
     
-    <Image source={iccircle} style={{marginLeft: -50}} />
+    <Image source={circlegreen} style={{marginLeft: -50}} />
     <Text style={{fontSize: 12, color: 'black'}}>{(item.checkin).slice(11,19)}</Text>
     <Text style={{fontSize: 12, color: 'black'}}>{(item.checkout).slice(11,19)}</Text>
     </View>
@@ -161,8 +161,8 @@ const time = dateNow.getHours() + ":" + dateNow.getMinutes()
     
 
 <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 16}}>
-<Text style={{fontSize: 10, color: 'black', marginTop: 3}}> Sebelumnya </Text>
-<Text style={{fontSize: 10, color: 'black', marginTop: 3}}> Setelahnya </Text>
+<Text style={{fontSize: 10, color: 'black', marginTop: 3}}>  </Text>
+<Text style={{fontSize: 10, color: 'blue', marginTop: 3}} onPress={() => navigation.navigate('ViewAllPresensi')}> Lihat Selengkapnya </Text>
 
 </View>
       
@@ -170,17 +170,17 @@ const time = dateNow.getHours() + ":" + dateNow.getMinutes()
       <View style={{flexDirection: 'row', paddingHorizontal: 16, marginTop: 12, justifyContent: 'space-around'}}>
         <View style={{flexDirection: 'row'}}>
           <Image source={circlegreen} />
-          <Text style={{fontSize: 10, color: 'black', marginTop: -3, marginLeft: 3}}>Active</Text>
+          <Text style={{fontSize: 10, color: 'black', marginTop: -3, marginLeft: 3}}>Hadir</Text>
         </View>
 
         <View style={{flexDirection: 'row'}}>
           <Image source={iccircle} />
-          <Text style={{fontSize: 10, color: 'black', marginTop: -3, marginLeft: 3}}>Active</Text>
+          <Text style={{fontSize: 10, color: 'black', marginTop: -3, marginLeft: 3}}>Libur</Text>
         </View>
 
         <View style={{flexDirection: 'row'}}>
           <Image source={circleorange} />
-          <Text style={{fontSize: 10, color: 'black', marginTop: -3, marginLeft: 3}}>Active</Text>
+          <Text style={{fontSize: 10, color: 'black', marginTop: -3, marginLeft: 3}}>Tidak Hadir</Text>
         </View>
       </View>
 

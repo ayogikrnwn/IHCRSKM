@@ -10,6 +10,7 @@ import MedicalCheck from '../pages/Akun/MedicalCheck';
 import ProfilPribadi from '../pages/Akun/ProfilPribadi';
 import Home from '../pages/Home';
 import ScanPresensi from '../pages/Home/ScanPresensi';
+import ViewAllPresensi from '../pages/Home/ViewAllPresensi';
 import DetailPayslip from '../pages/Laporan/DetailPayslip';
 import LaporanDashboard from '../pages/Laporan/LaporanDashboard';
 import LaporanDPMK from '../pages/Laporan/LaporanDPMK';
@@ -96,6 +97,11 @@ const Router = () => {
      <Stack.Screen
       name="ProfilPribadi"
       component={ProfilPribadi}
+      options={{headerShown: false}}
+    />
+    <Stack.Screen
+      name="ViewAllPresensi"
+      component={ViewAllPresensi}
       options={{headerShown: false}}
     />
     </Stack.Navigator>

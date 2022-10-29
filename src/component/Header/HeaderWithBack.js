@@ -2,10 +2,10 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import ICBack from '../../assets/arrowback.png'
 
-const HeaderWithBack = ({title, desc}) => {
+const HeaderWithBack = ({title, desc, onPress}) => {
   return (
     <View style={{width: '100%', height: 71, backgroundColor: 'white', paddingHorizontal: 18, alignItems: 'center', flexDirection: 'row'}}>
-    <TouchableOpacity>
+    <TouchableOpacity onPress={onPress}>
         <Image source={ICBack} />
     </TouchableOpacity>
     <View style={{marginLeft: 16}}>

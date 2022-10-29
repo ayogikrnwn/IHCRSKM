@@ -27,7 +27,9 @@ const PengajuanDashboard = ({navigation}) => {
                     <Square text="Formulir Lembur"  onPress={() => navigation.navigate('FormPengajuan', {
                       type: 'Lembur'
                     })}/>
-                    {/* <Square text="Formulir Tukar Dinas"  onPress={() => navigation.navigate('FormPengajuan')}/> */}
+                    <Square text="Formulir Tukar Dinas"  onPress={() => navigation.navigate('FormPengajuan',{
+                      type: 'Tukar Dinas'
+                    })}/>
 
 
 

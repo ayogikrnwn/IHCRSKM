@@ -276,7 +276,7 @@ const FormPengajuan = ({navigation, route}) => {
     {namaHeader == "Cuti" 
       &&
       <>
-      <HeaderWithBack title="Formulir Pengajuan" desc="Pengajuan Cuti" />
+      <HeaderWithBack title="Formulir Pengajuan" desc="Pengajuan Cuti" onPress={() => navigation.goBack()} />
 
         <ScrollView>
 
@@ -331,7 +331,7 @@ const FormPengajuan = ({navigation, route}) => {
             <TouchableOpacity style={{backgroundColor: '#004B8C', width: '90%', height: 40,  marginBottom: 14, borderRadius: 8, marginTop: 30, alignSelf: 'center'}} 
                       onPress={handleCreateCuti}
                       >
-                <Text style={{textAlign: 'center', marginTop:3, fontSize: 14, fontFamily: 'Poppins-Light', paddingVertical: 5, color: 'white', fontWeight: 'bold'}}>Ajukan Izin</Text>
+                <Text style={{textAlign: 'center', marginTop:3, fontSize: 14, fontFamily: 'Poppins-Light', paddingVertical: 5, color: 'white', fontWeight: 'bold'}}>Ajukan Cuti</Text>
             </TouchableOpacity>
         </ScrollView>
       </>
@@ -342,7 +342,7 @@ const FormPengajuan = ({navigation, route}) => {
 {namaHeader == "Lembur" 
       &&
       <>
-      <HeaderWithBack title="Formulir Pengajuan" desc="Pengajuan Lembur" />
+      <HeaderWithBack title="Formulir Pengajuan" desc="Pengajuan Lembur" onPress={() => navigation.goBack()} />
 
         <ScrollView>
 
@@ -409,6 +409,56 @@ const FormPengajuan = ({navigation, route}) => {
 
       }
 
+{namaHeader == "Tukar Dinas" 
+      &&
+      <>
+      <HeaderWithBack title="Formulir Pengajuan" desc="Pengajuan Tukar Dinas" onPress={() => navigation.goBack()}/>
+
+        <ScrollView>
+
+            <View style={{backgroundColor: '#E6EDF4', height: 300, paddingHorizontal: 16}}>
+            <View style={styles.container}>
+              
+            
+              </View>
+              <View style={{marginTop: 10}}>
+              <Text style={{color: '#00162A', fontWeight: 'bold', marginBottom: -10}}>Tanggal Tukar Dinas</Text>
+
+              {dateSelected !== "" ?
+              <Square text={(datss).slice(1,11)}  onPress={() => setOpen(true)}/>
+              :
+              <Square text="Pilih  Tanggal"  onPress={() => setOpen(true)}/>
+
+            }
+
+          <View>
+         
+          </View>
+           
+            
+        <View style={{marginTop:10}}>
+        <InputTextWhite title="NIK / Nama Tukar Karyawan Partner" placeholder="Masukan NIK" onChangeText={(e) => setInput({ ...inputan, nik: e })} />
+        <InputTextWhite title="Keterangan / Alasan" placeholder="Masukan Detail Keterangan" onChangeText={(e) => setInput({ ...inputan, keterangan: e })} />
+     
+     
+        </View>
+        
+
+              </View>
+              
+            </View>
+
+           
+            <TouchableOpacity style={{backgroundColor: '#004B8C', width: '90%', height: 40,  marginBottom: 14, borderRadius: 8, marginTop: 30, alignSelf: 'center'}} 
+                      onPress={() => alert('Under Development')}
+                      >
+                <Text style={{textAlign: 'center', marginTop:3, fontSize: 14, fontFamily: 'Poppins-Light', paddingVertical: 5, color: 'white', fontWeight: 'bold'}}>Ajukan Tukar Dinas</Text>
+            </TouchableOpacity>
+        </ScrollView>
+      </>
+    
+
+      }
    
     </View>
     <DatePicker
